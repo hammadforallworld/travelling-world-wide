@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon3D | Futuristic Air Travel & Smart Booking</title>
+    <meta name="description" content="Book supersonic and luxury air travel across the globe. View 3D airplanes in real-time, custom seat select, schedule agent consultations, and chat with FlyAI, our digital travel assistant.">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">
+            <i data-lucide="plane-takeoff"></i>
+            <span>HORIZON3D</span>
+        </div>
+        <nav>
+            <a href="#home" class="active">Home</a>
+            <a href="#destinations">Destinations</a>
+            <a href="#hangar">3D Hangar</a>
+            <a href="#booking">Book Ticket</a>
+        </nav>
+        <button class="cta-btn" onclick="scrollToBooking()">
+            <span>Book Now</span>
+            <i data-lucide="arrow-right"></i>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Section 1: Hero -->
+        <section id="home">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Explore the World <span>In Supersonic Style</span></h1>
+                    <p>Experience luxury aviation. Select from high-performance aircraft, preview seating in real-time, schedule consultations, and fly to breathtaking locations, guided by AI.</p>
+                    <div class="hero-buttons">
+                        <button class="cta-btn" onclick="scrollToBooking()">
+                            <span>Start Journey</span>
+                            <i data-lucide="compass"></i>
+                        </button>
+                        <a href="#hangar" class="sec-btn">
+                            <span>Explore 3D Hangar</span>
+                            <i data-lucide="box"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-globe-container">
+                        <canvas id="globe-canvas" class="hero-globe-canvas"></canvas>
+                        <div class="hero-stats glass-panel">
+                            <div class="stat-item">
+                                <div class="stat-num" id="stat-destinations">45+</div>
+                                <div class="stat-label">Countries</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num" id="stat-flights">1,200+</div>
+                                <div class="stat-label">Daily Flights</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num" id="stat-speed">Mach 2.2</div>
+                                <div class="stat-label">Max Speed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Destinations -->
+        <section id="destinations">
+            <div class="section-header">
+                <h2>Choose Your Destination</h2>
+                <p>Discover handpicked global destinations with HD visual showcases, flights, local times, and essential information.</p>
+            </div>
+            
+            <div class="country-grid">
+                <!-- Country selector tabs -->
+                <div class="country-selector glass-panel" id="countrySelector">
+                    <!-- Dynamic Country Tabs Inserted Here -->
+                </div>
+
+                <!-- Country Main Info Display -->
+                <div class="country-display glass-panel" id="countryDisplay">
+                    <div class="country-gallery">
+                        <img src="" alt="Country Preview" class="country-main-img" id="countryMainImage">
+                        <div class="country-gallery-overlay">
+                            <h3 id="countryName">Destination</h3>
+                            <p id="countryCapital">Capital</p>
+                        </div>
+                    </div>
+                    <div class="country-details-panel">
+                        <div class="details-header">
+                            <span class="country-badge" id="countryContinent">North America</span>
+                            <p class="country-desc" id="countryDesc">Loading destination details...</p>
+                        </div>
+                        
+                        <div class="info-cards">
+                            <div class="info-card">
+                                <i data-lucide="clock"></i>
+                                <div class="info-card-text">
+                                    <p>Local Time</p>
+                                    <span id="countryTime">--:--</span>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i data-lucide="cloud-sun"></i>
+                                <div class="info-card-text">
+                                    <p>Current Temp</p>
+                                    <span id="countryTemp">--°C</span>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i data-lucide="wallet"></i>
+                                <div class="info-card-text">
+                                    <p>Currency</p>
+                                    <span id="countryCurrency">---</span>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i data-lucide="languages"></i>
+                                <div class="info-card-text">
+                                    <p>Primary Language</p>
+                                    <span id="countryLanguage">English</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="cta-btn" style="width: 100%; justify-content: center;" onclick="bookDestination()">
+                            <span>Fly to this Destination</span>
+                            <i data-lucide="plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: 3D Hangar -->
+        <section id="hangar">
+            <div class="section-header">
+                <h2>Our 3D Fleet</h2>
+                <p>Browse our cutting-edge fleet in interactive 3D, showcasing state-of-the-art designs, cabins, and flight specs.</p>
+            </div>
+
+            <div class="showroom-container">
+                <!-- 3D Canvas Box -->
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="hangar-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+                    <div class="three-loading" id="threeLoading">
+                        <i data-lucide="loader-2"></i>
+                        <span>Initializing 3D Hangar...</span>
+                    </div>
+                </div>
+
+                <!-- Aircraft Details and Selector -->
+                <div class="showroom-details">
+                    <div>
+                        <div class="plane-selector-tabs" id="planeTabs">
+                            <!-- Dynamic Tabs -->
+                        </div>
+                        <div class="plane-info-box">
+                            <h3 id="planeName">Aircraft Model</h3>
+                            <p class="plane-tagline" id="planeTagline">Jet tag line</p>
+                            <p class="country-desc" id="planeDesc" style="margin-bottom: 2rem;">Loading details...</p>
+                        </div>
+                        <div class="plane-specs">
+                            <div class="spec-detail">
+                                <p class="spec-title">Speed</p>
+                                <p class="spec-val" id="planeSpeed">--</p>
+                            </div>
+                            <div class="spec-detail">
+                                <p class="spec-title">Range</p>
+                                <p class="spec-val" id="planeRange">--</p>
+                            </div>
+                            <div class="spec-detail">
+                                <p class="spec-title">Capacity</p>
+                                <p class="spec-val" id="planeCapacity">--</p>
+                            </div>
+                            <div class="spec-detail">
+                                <p class="spec-title">Class Level</p>
+                                <p class="spec-val" id="planeClass">--</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="showroom-controls-tip">
+                        <i data-lucide="mouse-pointer"></i>
+                        <span>Drag to rotate plane 360° | Scroll to Zoom</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Booking Wizard -->
+        <section id="booking">
+            <div class="section-header">
+                <h2>Booking Terminal</h2>
+                <p>Secure your boarding pass and schedule your premium consultation in simple interactive steps.</p>
+            </div>
+
+            <div class="booking-wizard-container glass-panel" style="padding: 2.5rem;">
+                <!-- Wizard Navigation Indicators -->
+                <div class="wizard-steps">
+                    <div class="wizard-progress-bar" id="wizardProgressBar"></div>
+                    <div class="step-node active" id="stepNode1">
+                        1
+                        <span class="step-label-text">Trip Details</span>
+                    </div>
+                    <div class="step-node" id="stepNode2">
+                        2
+                        <span class="step-label-text">Select Seat</span>
+                    </div>
+                    <div class="step-node" id="stepNode3">
+                        3
+                        <span class="step-label-text">Agent Consultation</span>
+                    </div>
+                    <div class="step-node" id="stepNode4">
+                        4
+                        <span class="step-label-text">Confirmation</span>
+                    </div>
+                </div>
+
+                <!-- Wizard Panels -->
+                <div class="wizard-panels">
+                    
+                    <!-- Panel 1: Flight & Passenger Details -->
+                    <div class="wizard-panel active" id="wizardPanel1">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="bookingOrigin">Origin City</label>
+                                <input type="text" id="bookingOrigin" class="form-input" placeholder="e.g., London (LHR)" value="London (LHR)">
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingDestination">Destination Country</label>
+                                <select id="bookingDestination" class="form-input">
+                                    <!-- Options populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingDate">Departure Date</label>
+                                <input type="date" id="bookingDate" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="bookingTravelClass">Travel Class</label>
+                                <select id="bookingTravelClass" class="form-input">
+                                    <option value="first">Apex First Class (Mach 2.2)</option>
+                                    <option value="business" selected>Starlight Business</option>
+                                    <option value="premium">Apex Premium Economy</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="passengerName">Passenger Full Name</label>
+                                <input type="text" id="passengerName" class="form-input" placeholder="Enter Full Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="passengerEmail">Email Address</label>
+                                <input type="email" id="passengerEmail" class="form-input" placeholder="name@domain.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: 3D Seating Chart -->
+                    <div class="wizard-panel" id="wizardPanel2">
+                        <div class="seat-selection-area">
+                            <!-- Seat map -->
+                            <div class="seat-map-card glass-panel">
+                                <h4 style="margin-bottom: 1.5rem;">Cabin Map</h4>
+                                <div class="airplane-cabin">
+                                    <div class="airplane-nose"></div>
+                                    
+                                    <!-- Row A -->
+                                    <div class="cabin-row">
+                                        <div class="cabin-row-label">1</div>
+                                        <div class="seat" data-seat="1A"></div>
+                                        <div class="seat taken" data-seat="1B"></div>
+                                        <div></div>
+                                        <div class="seat" data-seat="1C"></div>
+                                        <div class="seat" data-seat="1D"></div>
+                                    </div>
+                                    
+                                    <!-- Row B -->
+                                    <div class="cabin-row">
+                                        <div class="cabin-row-label">2</div>
+                                        <div class="seat" data-seat="2A"></div>
+                                        <div class="seat" data-seat="2B"></div>
+                                        <div></div>
+                                        <div class="seat taken" data-seat="2C"></div>
+                                        <div class="seat" data-seat="2D"></div>
+                                    </div>
+
+                                    <!-- Row C -->
+                                    <div class="cabin-row">
+                                        <div class="cabin-row-label">3</div>
+                                        <div class="seat taken" data-seat="3A"></div>
+                                        <div class="seat" data-seat="3B"></div>
+                                        <div></div>
+                                        <div class="seat" data-seat="3C"></div>
+                                        <div class="seat" data-seat="3D"></div>
+                                    </div>
+
+                                    <!-- Row D -->
+                                    <div class="cabin-row">
+                                        <div class="cabin-row-label">4</div>
+                                        <div class="seat" data-seat="4A"></div>
+                                        <div class="seat" data-seat="4B"></div>
+                                        <div></div>
+                                        <div class="seat" data-seat="4C"></div>
+                                        <div class="seat taken" data-seat="4D"></div>
+                                    </div>
+                                    
+                                    <!-- Row E -->
+                                    <div class="cabin-row">
+                                        <div class="cabin-row-label">5</div>
+                                        <div class="seat" data-seat="5A"></div>
+                                        <div class="seat" data-seat="5B"></div>
+                                        <div></div>
+                                        <div class="seat" data-seat="5C"></div>
+                                        <div class="seat" data-seat="5D"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="seat-legend">
+                                    <div class="legend-item"><div class="seat"></div>Available</div>
+                                    <div class="legend-item"><div class="seat selected"></div>Selected</div>
+                                    <div class="legend-item"><div class="seat taken"></div>Occupied</div>
+                                </div>
+                            </div>
+
+                            <!-- Flight stats summary -->
+                            <div class="flight-summary-details">
+                                <div>
+                                    <h4 class="summary-flight-title" id="summaryFlightCode">FLIGHT HZ-804</h4>
+                                    <div class="summary-card-inner">
+                                        <div class="summary-line">
+                                            <span>Destination</span>
+                                            <span id="summaryDest">America</span>
+                                        </div>
+                                        <div class="summary-line">
+                                            <span>Aircraft</span>
+                                            <span id="summaryPlane">Supersonic Jet</span>
+                                        </div>
+                                        <div class="summary-line">
+                                            <span>Class</span>
+                                            <span id="summaryClass">Starlight Business</span>
+                                        </div>
+                                        <div class="summary-line">
+                                            <span>Selected Seat</span>
+                                            <span id="summarySeat" style="color: var(--secondary); font-weight: 700;">Not Selected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="total-price-box">
+                                    <div>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Total Ticket Price</p>
+                                        <h4 id="summaryPrice">$8,500</h4>
+                                    </div>
+                                    <i data-lucide="credit-card" style="font-size: 1.8rem; color: var(--primary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 3: Consultation Appointment -->
+                    <div class="wizard-panel" id="wizardPanel3">
+                        <div class="appointment-grid">
+                            <div class="form-group">
+                                <h4 style="margin-bottom: 1.5rem;">Select Travel Specialist</h4>
+                                <div class="agent-cards" id="agentCards">
+                                    <!-- Cards populated dynamically in JS -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h4 style="margin-bottom: 1.5rem;">Date & Time Slot</h4>
+                                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+                                    <div class="form-group">
+                                        <label for="apptDate">Consultation Date</label>
+                                        <input type="date" id="apptDate" class="form-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="apptTime">Time Slot</label>
+                                        <select id="apptTime" class="form-input">
+                                            <option value="09:00">09:00 AM - 10:00 AM (EST)</option>
+                                            <option value="11:30" selected>11:30 AM - 12:30 PM (EST)</option>
+                                            <option value="14:00">02:00 PM - 03:00 PM (EST)</option>
+                                            <option value="16:30">04:30 PM - 05:30 PM (EST)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="apptType">Meeting Format</label>
+                                        <select id="apptType" class="form-input">
+                                            <option value="hologram">Holographic Virtual Meet</option>
+                                            <option value="video" selected>Secure Video Call</option>
+                                            <option value="voice">Audio Call Only</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 4: Confirmation screen -->
+                    <div class="wizard-panel" id="wizardPanel4">
+                        <div class="confirmation-card glass-panel">
+                            <i class="success-icon" data-lucide="check-circle-2"></i>
+                            <h3>Reservation Confirmed!</h3>
+                            <p>Your boarding pass and agent meeting invite have been generated successfully. Safe travels with Horizon3D.</p>
+                            
+                            <div class="ticket-receipt">
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Booking Reference ID</span>
+                                    <span class="receipt-val highlight" id="receiptBookingId">HZ-XXXXXX</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Passenger Name</span>
+                                    <span class="receipt-val" id="receiptPassengerName">John Doe</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Flight Details</span>
+                                    <span class="receipt-val" id="receiptFlight">HZ-804 to America</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Seat Assigned</span>
+                                    <span class="receipt-val" id="receiptSeat">1A</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Specialist Consultant</span>
+                                    <span class="receipt-val" id="receiptConsultant">Elena Rostova</span>
+                                </div>
+                                <div class="receipt-row">
+                                    <span class="receipt-label">Consultation Schedule</span>
+                                    <span class="receipt-val" id="receiptConsultationTime">Today at 11:30 AM</span>
+                                </div>
+                            </div>
+
+                            <button class="sec-btn" onclick="resetBookingWizard()">
+                                <i data-lucide="rotate-ccw"></i>
+                                <span>Book Another Flight</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wizard Actions -->
+                <div class="wizard-buttons" id="wizardActions">
+                    <button class="sec-btn" id="btnPrev" onclick="prevStep()" style="visibility: hidden;">
+                        <i data-lucide="arrow-left"></i>
+                        <span>Back</span>
+                    </button>
+                    <button class="cta-btn" id="btnNext" onclick="nextStep()">
+                        <span>Next Step</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating AI Chat Assistant -->
+    <div class="ai-chat-widget">
+        <button class="ai-chat-btn" id="chatWidgetBtn" onclick="toggleChatPanel()">
+            <i data-lucide="bot"></i>
+        </button>
+
+        <div class="ai-chat-panel glass-panel" id="chatPanel">
+            <div class="chat-header">
+                <div class="chat-agent-info">
+                    <div class="chat-avatar">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <div class="chat-agent-title">
+                        <h4>FlyAI Assistant</h4>
+                        <p>Active | Travel Expert</p>
+                    </div>
+                </div>
+                <button class="chat-close-btn" onclick="toggleChatPanel()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    Hello! I'm FlyAI, your intelligent travel copilot. How can I help you today? You can ask me for flight details, country guidelines, or input your booking reference ID to check your ticket confirmation status.
+                </div>
+            </div>
+
+            <div class="chat-suggestions">
+                <div class="chat-suggestion-chip" onclick="sendSuggestedMessage('What are the visa requirements for America?')">Visa info for USA</div>
+                <div class="chat-suggestion-chip" onclick="sendSuggestedMessage('Show baggage allowances')">Baggage policies</div>
+                <div class="chat-suggestion-chip" onclick="sendSuggestedMessage('How do I check my booking status?')">Check Booking</div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Ask FlyAI a question..." onkeypress="handleChatKeyPress(event)">
+                <button class="chat-send-btn" onclick="sendChatMessage()">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 1.5rem;">
+                    <i data-lucide="plane-takeoff"></i>
+                    <span>HORIZON3D</span>
+                </div>
+                <p>Horizon3D is a pioneering luxury travel agency combining high-speed supersonic aviation with interactive next-gen technology to bring the world closer to you.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i data-lucide="twitter"></i></a>
+                    <a href="#" class="social-link"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="social-link"><i data-lucide="facebook"></i></a>
+                    <a href="#" class="social-link"><i data-lucide="youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#hangar">Our Fleet</a></li>
+                    <li><a href="#booking">Booking Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Fleet Types</h4>
+                <ul>
+                    <li><a href="#hangar">Supersonic Jet</a></li>
+                    <li><a href="#hangar">Starlight Cruiser</a></li>
+                    <li><a href="#hangar">Skyline Airliner</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Subscribe to receive news about new routes, speeds, and updates.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your Email" class="form-input" style="padding: 0.5rem 1rem;">
+                    <button class="cta-btn" style="padding: 0.5rem 1rem; border-radius: 10px;">
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Horizon3D Luxury Travel Group. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Three.js and GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- App Scripts -->
+    <script src="three-canvas.js"></script>
+    <script src="ai-bot.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
